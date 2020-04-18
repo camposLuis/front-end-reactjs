@@ -12,13 +12,19 @@ export default function App() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    api.get('/projects').then(response => {
+    api.get('projects').then(response => {
       setProjects(response.data);
     })
   }, []);
 
-  function handleAddProject() {
-    setProjects([...projects, `Novo Projeto ${Date.now()}`]);
+  async function handleAddProject() {
+    // setProjects([...projects, `Novo Projeto ${Date.now()}`]);
+    const response = await api.post('projects', {
+      title: `Novo Projeto ${Date.now()}`,
+      owner: "Novo Owner"
+    });
+
+    setProjects([...projects, response.data]);
   }
 
   return (
